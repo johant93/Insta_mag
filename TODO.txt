@@ -1,0 +1,5 @@
+ - implement Pause and resume buttons working on thread waiting_for(predicate) condition.
+
+ - attach the total download counter (as a global variable of GUI.class) to the download scrypt inside the while loop of the app code.
+
+ - create an executable app (windows/OSx)

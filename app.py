@@ -486,20 +486,18 @@ class InstagramScraper(object):
                             if (item['owner'].get('id') not in items_by_owner):
                                 items_by_owner[(item['owner'].get('id'))] = 1
                                 items_id.append(item['id'])
-                               # InstagramScraper.total_pic_downl += 1
                                 item_exist = False
                             # check existant media
                             elif (item['id'] not in items_id):
                                 items_by_owner[(item['owner'].get('id'))] = items_by_owner.get(item['owner'].get('id')) + 1
                                 items_id.append(item['id'])
-                              #  InstagramScraper.total_pic_downl += 1
                                 item_exist = False
                             # check number of media by owner
                             if int(items_by_owner[(item['owner'].get('id'))]) <= int(InstagramScraper.max_by_owner) and not item_exist:
                                 future = executor.submit(self.worker_wrapper, self.download, item, dst)
                                 future_to_item[future] = item
+                                InstagramScraper.total_pic_downl += 1
 
-                            InstagramScraper.total_pic_downl = len(items_id)
 
                         if self.include_location and 'location' not in item:
                             media_exec.submit(self.worker_wrapper, self.__get_location, item)
@@ -538,7 +536,6 @@ class InstagramScraper(object):
                         else:
                             self.save_json({ 'GraphImages': self.posts }, '{0}/{1}.json'.format(dst, value))
 
-                InstagramScraper.stop = False
                 print("program stopped !")
                 time.sleep(10)
 

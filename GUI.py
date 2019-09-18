@@ -122,6 +122,7 @@ class GUI:
         self.limit_entry.delete(0, tk.END)  # delete all from 0 to END character in Entry Widget
         self.dst_path_entry.delete(0, tk.END)
         self.maxPic_byUser_entry.delete(0, tk.END)
+        app.InstagramScraper.total_pic_downl = 0
 
 
     def btnBrowsefunc(self,event):
@@ -188,6 +189,7 @@ class GUI:
         dst = self.dst_path_entry.get()
         max_pic_by_user = self.maxPic_byUser_entry.get()
         app.InstagramScraper.max_by_owner = max_pic_by_user
+        app.InstagramScraper.stop = False
         if self.check_fields(dst, htag, limit_pic, max_pic_by_user):
             self.traitement()
             t = threading.Thread(target=app.run,args=(htag,limit_pic,dst))
