@@ -999,10 +999,11 @@ class InstagramScraper(object):
 
     def download(self, item, save_dir='./'):
         """Downloads the media file."""
-        for full_url, base_name in self.templatefilename(item):
+        for full_url, base_name, date in self.templatefilename(item):
             url = full_url.split('?')[0] #try the static url first, stripping parameters
-
-            file_path = os.path.join(save_dir, base_name)
+            new_name = date +"_insta.jpg"
+           # new_name = time_s + ".jpg"
+            file_path = os.path.join(save_dir, new_name)
 
             if not os.path.exists(os.path.dirname(file_path)):
                 self.make_dir(os.path.dirname(file_path))
@@ -1109,10 +1110,12 @@ class InstagramScraper(object):
                     file_time = int(timestamp if timestamp else time.time())
                     os.utime(file_path, (file_time, file_time))
 
-    def templatefilename(self, item):
+    def  templatefilename(self, item):
 
         for url in item['urls']:
             filename, extension = os.path.splitext(os.path.split(url.split('?')[0])[1])
+            time_s = time.strftime('%H%M%S', time.localtime(self.__get_timestamp(item)))
+
             try:
                 template = self.template
                 template_values = {
@@ -1131,10 +1134,12 @@ class InstagramScraper(object):
                                    's': time.strftime('%Ss', time.localtime(self.__get_timestamp(item)))}
 
                 customfilename = str(template.format(**template_values) + extension)
-                yield url, customfilename
+                time_s = time.strftime('%H%M%S',time.localtime(self.__get_timestamp(item)))
+
+                yield url, customfilename, time_s
             except KeyError:
                 customfilename = str(filename + extension)
-                yield url, customfilename
+                yield url, customfilename, time_s
 
     def is_new_media(self, item):
         """Returns True if the media is new."""

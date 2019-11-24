@@ -102,6 +102,14 @@ class GUI:
         self.btn_quit.pack(padx=10, side=tk.LEFT)
         self.btn_quit.bind('<Button-1>', self.btnQuit_func)
 
+        copyright_symbol = u"\N{COPYRIGHT SIGN}"
+        frame7 = Frame(master)
+        frame7.pack(pady=20)
+        self.lab_cr = ttk.Label(frame7, text=copyright_symbol+" Insta'scrap 2019 - Jo'Events")
+        self.lab_cr.pack(padx=5, pady=5)
+
+
+
 
     def btnStop_func(self,event):
         app.InstagramScraper.stop = True
